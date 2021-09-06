@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final moviesProvider = Provider.of<MoviesProviders>(context, listen: false);
+    final moviesProvider = Provider.of<MoviesProviders>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Peliculas en cines'),
