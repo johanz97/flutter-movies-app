@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:peliculas/helpers/debouncer.dart';
 import 'package:peliculas/models/models.dart';
 
 class MoviesProviders extends ChangeNotifier {
@@ -10,13 +13,20 @@ class MoviesProviders extends ChangeNotifier {
   List<Movie> onDisplayMovies = [];
   List<Movie> popularMovies = [];
   Map<int, List<Cast>> movieCast = {};
+  final debouncer = Debouncer(
+    duration: Duration(milliseconds: 500),
+  );
+  final StreamController<List<Movie>> _suggestionStreamController =
+      new StreamController.broadcast();
+  Stream<List<Movie>> get suggestionStream =>
+      this._suggestionStreamController.stream;
   MoviesProviders() {
     this.getOnDisplayMovies();
     this.getPopularMovies();
   }
 
   Future<String> _getJsonData(String endPoint, [int page = 1]) async {
-    var url = Uri.https(_baseURL, endPoint,
+    final url = Uri.https(_baseURL, endPoint,
         {'api_key': _apiKey, 'languaje': _languaje, 'page': '$page'});
     final response = await http.get(url);
     return response.body;
@@ -43,5 +53,25 @@ class MoviesProviders extends ChangeNotifier {
     final creditsResponse = CreditsResponse.fromJson(jsonData);
     movieCast[movieId] = creditsResponse.cast;
     return creditsResponse.cast;
+  }
+
+  Future<List<Movie>> searchMovie(String query) async {
+    final url = Uri.https(_baseURL, '3/search/movie',
+        {'api_key': _apiKey, 'languaje': _languaje, 'query': query});
+    final response = await http.get(url);
+    final searchResponse = SearchResponse.fromJson(response.body);
+    return searchResponse.results;
+  }
+
+  void getSuggestionByQuery(String searchTem) {
+    debouncer.value = '';
+    debouncer.onValue = (value) async {
+      final results = await this.searchMovie(value);
+      this._suggestionStreamController.add(results);
+    };
+    final timer = Timer.periodic(Duration(milliseconds: 300), (_) {
+      debouncer.value = searchTem;
+    });
+    Future.delayed(Duration(milliseconds: 301)).then((_) => timer.cancel());
   }
 }
