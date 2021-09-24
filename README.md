@@ -20,11 +20,11 @@ A mobile application created with Flutter and Api Rest <a href="https://www.them
   <li type="circle"><h3>Android</h3></li>
 </ul>
 
-![Screenshot_20210924-124749](https://user-images.githubusercontent.com/25967495/134718965-2132449b-4fd3-4726-9c2e-54cf5f501c56.jpg)
-
-![Screenshot_20210924-124811](https://user-images.githubusercontent.com/25967495/134718973-9548826a-8e6c-4f1d-ade9-627333eb9aaa.jpg)
-
-![Screenshot_20210924-124853](https://user-images.githubusercontent.com/25967495/134718987-033dcab7-e538-4745-9ba9-b072af5664fe.jpg)
+<p align="center">
+<img src="https://user-images.githubusercontent.com/25967495/134718965-2132449b-4fd3-4726-9c2e-54cf5f501c56.jpg" width="250" height="500">
+<img src="https://user-images.githubusercontent.com/25967495/134718973-9548826a-8e6c-4f1d-ade9-627333eb9aaa.jpg" width="250" height="500">
+<img src="https://user-images.githubusercontent.com/25967495/134718987-033dcab7-e538-4745-9ba9-b072af5664fe.jpg" width="250" height="500">
+</p>
 
 <h2>Get packages</h2>
 <ul>
